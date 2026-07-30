@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Interaktif PtLSV SMP - Pertidaksamaan Linear Satu Variabel</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- KaTeX CSS & JS for crisp Math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #2563eb 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-600 text-white p-2 rounded-xl">
+                    <i class="fa-solid fa-calculator text-lg"></i>
+                </div>
+                <span class="font-bold text-slate-800 text-lg sm:text-xl">PtLSV <span class="text-indigo-600">Interactive</span></span>
+            </div>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
+                <a href="#tujuan" class="hover:text-indigo-600 transition">Tujuan</a>
+                <a href="#warmup" class="hover:text-indigo-600 transition">Warm-Up</a>
+                <a href="#koneksi" class="hover:text-indigo-600 transition">Koneksi Nyata</a>
+                <a href="#konsep" class="hover:text-indigo-600 transition">Materi Inti</a>
+                <a href="#contoh" class="hover:text-indigo-600 transition">Contoh Soal</a>
+                <a href="#latihan" class="hover:text-indigo-600 transition">Latihan Soal</a>
+            </nav>
+            <div class="flex items-center gap-2">
+                <span class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-full font-semibold border border-indigo-200">
+                    <i class="fa-solid fa-graduation-cap mr-1"></i> SMP Kelas 7
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="gradient-bg text-white py-12 px-4 sm:px-6 lg:px-8 shadow-inner">
+        <div class="max-w-5xl mx-auto text-center space-y-4">
+            <span class="bg-white/20 text-white text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider backdrop-blur-sm">
+                Matematika SMP / Fase D
+            </span>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+                Pertidaksamaan Linear Satu Variabel (PtLSV)
+            </h1>
+            <p class="text-indigo-100 max-w-2xl mx-auto text-base sm:text-lg">
+                Pahami konsep batas, simbol pertidaksamaan, perbedaan dengan PLSV, hingga penerapan nyata dengan modul pembelajaran interaktif!
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- SECTION 1: TUJUAN PEMBELAJARAN -->
+        <section id="tujuan" class="scroll-mt-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">
+                    1
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Tujuan Pembelajaran</h2>
+                    <p class="text-sm text-slate-500">Target yang akan kamu capai dalam modul ini</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm card-hover flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4">
+                            <i class="fa-solid fa-less-than-equal"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">1. Memahami Simbol & Konsep</h3>
+                        <p class="text-slate-600 text-sm">Siswa dapat mengidentifikasi simbol pertidaksamaan ($\le, \ge, <, >$) dan membedakan bentuk PtLSV dari PLSV secara tepat.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-blue-600 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-check"></i> Pemahaman Konsep
+                    </span>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm card-hover flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">2. Operasi & Aturan Pembalikan</h3>
+                        <p class="text-slate-600 text-sm">Siswa dapat menyelesaikan operasi PtLSV dan menerapkan aturan penting pembalikan tanda saat perkalian/pembagian bilangan negatif.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-purple-600 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-check"></i> Keterampilan Prosedural
+                    </span>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm card-hover flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">3. Penerapan Soal Cerita</h3>
+                        <p class="text-slate-600 text-sm">Siswa mampu memodelkan dan menyelesaikan permasalahan kehidupan nyata yang melibatkan batas nilai maksimum atau minimum.</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-emerald-600 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-check"></i> Pemecahan Masalah
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: WARM-UP (8 SOAL) -->
+        <section id="warmup" class="scroll-mt-20">
+            <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">
+                        2
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Warm-Up: Apersepsi Dasar</h2>
+                        <p class="text-sm text-slate-500">Pemanasan 8 soal pilihan ganda tentang Aljabar & PLSV sebelum masuk ke PtLSV</p>
+                    </div>
+                </div>
+                <div id="warmup-score" class="bg-indigo-50 border border-indigo-200 text-indigo-800 text-sm px-4 py-2 rounded-xl font-bold">
+                    Skor Warm-up: 0 / 8
+                </div>
+            </div>
+
+            <!-- Warmup Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="warmup-container">
+                <!-- Javascript will inject 8 interactive questions here -->
+            </div>
+        </section>
+
+        <!-- SECTION 3: KONEKSI NYATA -->
+        <section id="koneksi" class="scroll-mt-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">
+                    3
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Koneksi Dunia Nyata</h2>
+                    <p class="text-sm text-slate-500">Di kehidupan sehari-hari, kita sering menggunakan kata batas (minimal, maksimal, tidak boleh lebih dari)</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Case 1 -->
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
+                    <div class="bg-amber-500 text-white p-4 font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-elevator text-xl"></i>
+                        <span>Kasus 1: Batas Kapasitas Lift</span>
+                    </div>
+                    <div class="p-6 space-y-3 flex-grow">
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Sebuah lift gedung kantor memiliki aturan: <strong>"Kapasitas maksimum lift adalah 600 kg."</strong>
+                        </p>
+                        <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-xs text-amber-900">
+                            <strong>Model Matematika:</strong> Jika $x$ adalah total berat muatan lift (kg), maka:
+                            <div class="text-center text-sm font-bold mt-1 text-amber-700">$x \le 600$</div>
+                            *(Berat muatan harus kurang dari atau sama dengan 600 kg)*
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
+                    <div class="bg-emerald-600 text-white p-4 font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-id-card text-xl"></i>
+                        <span>Kasus 2: Syarat Usia Buat SIM</span>
+                    </div>
+                    <div class="p-6 space-y-3 flex-grow">
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Syarat resmi untuk mengajukan Surat Izin Mengemudi (SIM C) adalah <strong>"Minimal berusia 17 tahun."</strong>
+                        </p>
+                        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 text-xs text-emerald-900">
+                            <strong>Model Matematika:</strong> Jika $u$ adalah usia pendaftar (tahun), maka:
+                            <div class="text-center text-sm font-bold mt-1 text-emerald-700">$u \ge 17$</div>
+                            *(Usia pendaftar harus lebih dari atau sama dengan 17 tahun)*
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
+                    <div class="bg-sky-600 text-white p-4 font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-wallet text-xl"></i>
+                        <span>Kasus 3: Budget Belanja Jajan</span>
+                    </div>
+                    <div class="p-6 space-y-3 flex-grow">
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Budi membawa uang Rp 50.000 ke kantin. Ia ingin membeli beberapa minuman. Pengeluarannya <strong>"tidak boleh melebihi Rp 50.000"</strong>.
+                        </p>
+                        <div class="bg-sky-50 p-3 rounded-xl border border-sky-200 text-xs text-sky-900">
+                            <strong>Model Matematika:</strong> Jika $b$ adalah total pengeluaran (Rupiah), maka:
+                            <div class="text-center text-sm font-bold mt-1 text-sky-700">$b \le 50.000$</div>
+                            *(Pengeluaran harus tidak lebih dari Rp 50.000)*
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: MATERI INTI & KONSEP -->
+        <section id="konsep" class="scroll-mt-20 space-y-8">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">
+                    4
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Materi Inti & Konsep PtLSV</h2>
+                    <p class="text-sm text-slate-500">Memahami simbol, perbedaan dengan PLSV, dan aturan emas operasi</p>
+                </div>
+            </div>
+
+            <!-- Perbedaan PLSV vs PtLSV Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-scale-balanced text-indigo-600"></i>
+                    Perbedaan Utama: PLSV vs PtLSV
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700">
+                                <th class="p-3 rounded-l-lg">Aspek Perbandingan</th>
+                                <th class="p-3">Persamaan Linear Satu Variabel (PLSV)</th>
+                                <th class="p-3 rounded-r-lg">Pertidaksamaan Linear Satu Variabel (PtLSV)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-700">Tanda Hubung</td>
+                                <td class="p-3 text-emerald-600 font-bold">Hanya sama dengan ( $x = y$ )</td>
+                                <td class="p-3 text-indigo-600 font-bold">Simbol pertidaksamaan ( $<, >, \le, \ge$ )</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-700">Jumlah Penyelesaian</td>
+                                <td class="p-3">Biasanya <strong>tepat 1 nilai tunggal</strong> (contoh: $x = 5$)</td>
+                                <td class="p-3">Berupa <strong>rentang/himpunan nilai</strong> (contoh: $x > 5 \Rightarrow \{6, 7, 8, \dots\}$)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-700">Representasi Grafis</td>
+                                <td class="p-3">Satu titik tunggal pada garis bilangan</td>
+                                <td class="p-3">Daerah arsiran dengan bulatan terbuka atau tertutup</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-700">Aturan Kali/Bagi Negatif</td>
+                                <td class="p-3">Tanda ($=$) tetap tidak berubah</td>
+                                <td class="p-3 text-rose-600 font-bold">Tanda pertidaksamaan HARUS DIBALIK!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Simbol Pertidaksamaan -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2">
+                    <div class="text-3xl font-extrabold text-indigo-600">&lt;</div>
+                    <div class="font-bold text-slate-800">Kurang Dari</div>
+                    <p class="text-xs text-slate-500">Sama dengan "lebih kecil dari". Bulatan pada garis bilangan: <strong>Terbuka (◯)</strong>.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2">
+                    <div class="text-3xl font-extrabold text-indigo-600">&gt;</div>
+                    <div class="font-bold text-slate-800">Lebih Dari</div>
+                    <p class="text-xs text-slate-500">Sama dengan "lebih besar dari". Bulatan pada garis bilangan: <strong>Terbuka (◯)</strong>.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2">
+                    <div class="text-3xl font-extrabold text-indigo-600">&le;</div>
+                    <div class="font-bold text-slate-800">Kurang dari / Sama dengan</div>
+                    <p class="text-xs text-slate-500">Sering diartikan: "Paling banyak", "Maksimum", "Tidak lebih dari". Bulatan: <strong>Tertutup (●)</strong>.</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2">
+                    <div class="text-3xl font-extrabold text-indigo-600">&ge;</div>
+                    <div class="font-bold text-slate-800">Lebih dari / Sama dengan</div>
+                    <p class="text-xs text-slate-500">Sering diartikan: "Paling sedikit", "Minimal", "Tidak kurang dari". Bulatan: <strong>Tertutup (●)</strong>.</p>
+                </div>
+            </div>
+
+            <!-- Interactive Garis Bilangan Visualizer -->
+            <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-6 shadow-xl space-y-6">
+                <div class="flex items-center justify-between flex-wrap gap-3 border-b border-slate-700 pb-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-chart-line text-2xl text-indigo-400"></i>
+                        <div>
+                            <h3 class="font-bold text-lg">Simulasi Garis Bilangan Interaktif</h3>
+                            <p class="text-xs text-slate-400">Pilih simbol dan batas nilai untuk melihat daerah penyelesaiannya</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+                    <div>
+                        <label class="block text-xs text-slate-300 font-semibold mb-1">Variabel & Simbol</label>
+                        <select id="sim-operator" onchange="renderNumberLine()" class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500">
+                            <option value=">">x > (Lebih dari)</option>
+                            <option value=">=">x ≥ (Lebih dari sama dengan)</option>
+                            <option value="<">x < (Kurang dari)</option>
+                            <option value="<=" selected>x ≤ (Kurang dari sama dengan)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-300 font-semibold mb-1">Nilai Batas ($a$)</label>
+                        <input type="number" id="sim-value" value="2" min="-5" max="5" oninput="renderNumberLine()" class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700 text-center">
+                        <div class="text-xs text-slate-400">Bentuk Pertidaksamaan</div>
+                        <div id="sim-formula" class="text-xl font-bold text-indigo-300 mt-0.5">x ≤ 2</div>
+                    </div>
+                </div>
+
+                <!-- Canvas Garis Bilangan -->
+                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 overflow-x-auto flex flex-col items-center justify-center">
+                    <svg id="number-line-svg" width="600" height="120" class="max-w-full"></svg>
+                </div>
+            </div>
+
+            <!-- Golden Rule Alert Box -->
+            <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-6 text-rose-900 space-y-2">
+                <div class="flex items-center gap-3 font-bold text-lg text-rose-700">
+                    <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+                    <span>Aturan Emas Pertidaksamaan (Sangat Penting!)</span>
+                </div>
+                <p class="text-sm leading-relaxed">
+                    Apabila kedua ruas pertidaksamaan <strong>DIKALI</strong> atau <strong>DIBAGI</strong> dengan <strong>bilangan negatif (-)</strong>, maka <strong>TANDA PERTIDAKSAMAAN HARUS DIBALIK</strong>.
+                </p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 text-center text-xs font-bold">
+                    <div class="bg-white p-2 rounded-lg border border-rose-200">$>$ menjadi $<$</div>
+                    <div class="bg-white p-2 rounded-lg border border-rose-200">$<$ menjadi $>$</div>
+                    <div class="bg-white p-2 rounded-lg border border-rose-200">$\ge$ menjadi $\le$</div>
+                    <div class="bg-white p-2 rounded-lg border border-rose-200">$\le$ menjadi $\ge$</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: CONTOH SOAL (1 Per Konsep) -->
+        <section id="contoh" class="scroll-mt-20 space-y-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">
+                    5
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Contoh Soal Terbimbing</h2>
+                    <p class="text-sm text-slate-500">Pembahasan langkah demi langkah untuk setiap jenis konsep PtLSV</p>
+                </div>
+            </div>
+
+            <!-- Accordion Examples -->
+            <div class="space-y-4">
+                <!-- Example 1 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="bg-slate-50 p-4 font-bold text-slate-800 border-b border-slate-200 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <span class="bg-indigo-600 text-white text-xs px-2.5 py-1 rounded-full">Konsep 1</span>
+                            Menentukan & Menerjemahkan Simbol Pertidaksamaan
+                        </span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <p class="font-semibold text-slate-800">Soal:</p>
+                        <p class="text-sm text-slate-600">Nyatakan kalimat berikut dalam bentuk pertidaksamaan aljabar: <em>"Suatu bilangan $x$ jika ditambah 5 hasilnya tidak lebih dari 12."</em></p>
+                        <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 text-sm space-y-2">
+                            <p class="font-bold text-indigo-900">Pembahasan Step-by-Step:</p>
+                            <ul class="list-disc list-inside space-y-1 text-indigo-950">
+                                <li>Kata kunci <strong>"tidak lebih dari"</strong> disimbolkan dengan $\le$ (kurang dari atau sama dengan).</li>
+                                <li>Bentuk "bilangan $x$ ditambah 5" ditulis sebagai $x + 5$.</li>
+                                <li>Maka model pertidaksamaannya adalah: <strong class="text-indigo-700 font-bold">$x + 5 \le 12$</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example 2 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="bg-slate-50 p-4 font-bold text-slate-800 border-b border-slate-200 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <span class="bg-indigo-600 text-white text-xs px-2.5 py-1 rounded-full">Konsep 2</span>
+                            Operasi Penjumlahan & Pengurangan
+                        </span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <p class="font-semibold text-slate-800">Soal:</p>
+                        <p class="text-sm text-slate-600">Tentukan himpunan penyelesaian dari $x - 4 > 3$ untuk $x \in \text{Bilangan Bulat}$.</p>
+                        <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 text-sm space-y-2">
+                            <p class="font-bold text-indigo-900">Pembahasan Step-by-Step:</p>
+                            <p>Tambahkan 4 pada kedua ruas untuk mengisolasi variabel $x$:</p>
+                            <div class="font-mono bg-white p-3 rounded-lg border border-indigo-200 text-center text-indigo-800">
+                                $x - 4 + 4 > 3 + 4$<br>
+                                <strong>$x > 7$</strong>
+                            </div>
+                            <p class="text-slate-600">Himpunan penyelesaiannya adalah $\{8, 9, 10, 11, \dots\}$.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example 3 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="bg-slate-50 p-4 font-bold text-slate-800 border-b border-slate-200 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <span class="bg-indigo-600 text-white text-xs px-2.5 py-1 rounded-full">Konsep 3</span>
+                            Operasi Perkalian/Pembagian Positif
+                        </span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <p class="font-semibold text-slate-800">Soal:</p>
+                        <p class="text-sm text-slate-600">Selesaikan pertidaksamaan $3a + 2 \le 14$.</p>
+                        <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 text-sm space-y-2">
+                            <p class="font-bold text-indigo-900">Pembahasan Step-by-Step:</p>
+                            <ol class="list-decimal list-inside space-y-1 text-slate-700">
+                                <li>Kurangi 2 di kedua ruas: $3a \le 14 - 2 \Rightarrow 3a \le 12$</li>
+                                <li>Bagi kedua ruas dengan bilangan positif $+3$ (tanda <strong>tidak berubah</strong>):</li>
+                            </ol>
+                            <div class="font-mono bg-white p-3 rounded-lg border border-indigo-200 text-center text-indigo-800">
+                                $a \le \frac{12}{3} \Rightarrow$ <strong>$a \le 4$</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example 4 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="bg-slate-50 p-4 font-bold text-slate-800 border-b border-slate-200 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <span class="bg-rose-600 text-white text-xs px-2.5 py-1 rounded-full">Konsep 4</span>
+                            Operasi Pembagian/Perkalian Negatif (Aturan Pembalikan Tanda)
+                        </span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <p class="font-semibold text-slate-800">Soal:</p>
+                        <p class="text-sm text-slate-600">Selesaikan pertidaksamaan $-2x + 5 < 11$.</p>
+                        <div class="bg-rose-50/60 p-4 rounded-xl border border-rose-200 text-sm space-y-2">
+                            <p class="font-bold text-rose-900">Pembahasan Step-by-Step:</p>
+                            <ol class="list-decimal list-inside space-y-1 text-slate-700">
+                                <li>Kurangi 5 di kedua ruas: $-2x < 11 - 5 \Rightarrow -2x < 6$</li>
+                                <li>Bagi kedua ruas dengan $-2$. Karena membagi dengan <strong>bilangan negatif</strong>, pembalikan tanda terjadi ($<$ menjadi $>$):</li>
+                            </ol>
+                            <div class="font-mono bg-white p-3 rounded-lg border border-rose-200 text-center text-rose-800 font-bold">
+                                $x > \frac{6}{-2} \Rightarrow x > -3$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example 5 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="bg-slate-50 p-4 font-bold text-slate-800 border-b border-slate-200 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <span class="bg-emerald-600 text-white text-xs px-2.5 py-1 rounded-full">Konsep 5</span>
+                            Penerapan Aplikasi Soal Cerita
+                        </span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <p class="font-semibold text-slate-800">Soal:</p>
+                        <p class="text-sm text-slate-600">Panjang persegi panjang adalah $(x + 3)$ cm dan lebarnya $5$ cm. Jika luasnya tidak lebih dari $40\text{ cm}^2$, tentukan nilai maksimum $x$!</p>
+                        <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 text-sm space-y-2">
+                            <p class="font-bold text-emerald-900">Pembahasan Step-by-Step:</p>
+                            <p>Rumus Luas = $p \times l \le 40$</p>
+                            <div class="font-mono bg-white p-3 rounded-lg border border-emerald-200 text-center text-emerald-800">
+                                $5(x + 3) \le 40$<br>
+                                $5x + 15 \le 40$<br>
+                                $5x \le 25 \Rightarrow x \le 5$
+                            </div>
+                            <p class="text-slate-700">Jadi, nilai maksimum dari $x$ adalah <strong>5</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: LATIHAN SOAL INTERAKTIF (3 Soal Per Konsep = 15 Soal) -->
+        <section id="latihan" class="scroll-mt-20 space-y-6">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg">
+                        6
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Latihan Soal Mandiri Interaktif</h2>
+                        <p class="text-sm text-slate-500">Uji pemahamanmu (3 soal per konsep = Total 15 Soal)</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div id="practice-score" class="bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold px-4 py-2 rounded-xl text-sm">
+                        Skor Latihan: 0 / 15
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="flex overflow-x-auto gap-2 pb-2 border-b border-slate-200 text-sm font-semibold scrollbar-none" id="practice-tabs">
+                <button onclick="filterPractice(1)" id="tab-1" class="px-4 py-2 rounded-xl bg-indigo-600 text-white whitespace-nowrap transition">Konsep 1: Simbol</button>
+                <button onclick="filterPractice(2)" id="tab-2" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 whitespace-nowrap transition">Konsep 2: Tambah/Kurang</button>
+                <button onclick="filterPractice(3)" id="tab-3" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 whitespace-nowrap transition">Konsep 3: Kali/Bagi (+)</button>
+                <button onclick="filterPractice(4)" id="tab-4" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 whitespace-nowrap transition">Konsep 4: Kali/Bagi (-)</button>
+                <button onclick="filterPractice(5)" id="tab-5" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 whitespace-nowrap transition">Konsep 5: Soal Cerita</button>
+            </div>
+
+            <!-- Practice Questions Container -->
+            <div class="grid grid-cols-1 gap-6" id="practice-container">
+                <!-- Javascript will inject 15 questions, filtered by concept tab -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-16">
+        <div class="max-w-6xl mx-auto px-4 text-center space-y-2 text-sm">
+            <p class="font-semibold text-slate-300">Modul Interaktif Pembelajaran Matematika SMP - PtLSV</p>
+            <p class="text-xs text-slate-500">Dirancang untuk pembelajaran mandiri & interaktif siswa SMP Kelas 7 / Fase D</p>
+        </div>
+    </footer>
+
+    <script>
+        // Global helper for rendering KaTeX formulas
+        function triggerMathRender(el = document.body) {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(el, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        // Data Warm-up Quiz (8 Soal Aljabar & PLSV)
+        const warmupData = [
+            {
+                id: 1,
+                title: "Soal 1: Operasi Suku Sejenis Aljabar",
+                question: "Hasil penyederhanaan dari $3x + 5x - 2x$ adalah...",
+                options: ["$10x$", "$6x$", "$8x$", "$5x$"],
+                answer: 1,
+                explanation: "$3x + 5x - 2x = (3 + 5 - 2)x = 6x$."
+            },
+            {
+                id: 2,
+                title: "Soal 2: Nilai Bentuk Aljabar",
+                question: "Jika $a = 4$, maka nilai dari $2a + 7$ adalah...",
+                options: ["11", "13", "15", "18"],
+                answer: 2,
+                explanation: "Substitusi $a = 4$: $2(4) + 7 = 8 + 7 = 15$."
+            },
+            {
+                id: 3,
+                title: "Soal 3: Perkalian Bentuk Aljabar",
+                question: "Hasil kali $3(2x - 4)$ adalah...",
+                options: ["$6x - 12$", "$6x - 4$", "$5x - 12$", "$6x + 12$"],
+                answer: 0,
+                explanation: "Gunakan sifat distributif: $3(2x) - 3(4) = 6x - 12$."
+            },
+            {
+                id: 4,
+                title: "Soal 4: Koefisien Variabel",
+                question: "Koefisien dari variabel $y$ pada bentuk aljabar $4x - 7y + 9$ adalah...",
+                options: ["7", "-7", "4", "9"],
+                answer: 1,
+                explanation: "Koefisien $y$ menyertakan tandanya, yaitu $-7$."
+            },
+            {
+                id: 5,
+                title: "Soal 5: Dasar PLSV (Penjumlahan)",
+                question: "Penyelesaian dari persamaan $x + 8 = 15$ adalah...",
+                options: ["$x = 7$", "$x = 23$", "$x = 8$", "$x = -7$"],
+                answer: 0,
+                explanation: "Kurangi kedua ruas dengan 8: $x = 15 - 8 = 7$."
+            },
+            {
+                id: 6,
+                title: "Soal 6: Dasar PLSV (Pengurangan)",
+                question: "Penyelesaian dari persamaan $y - 6 = -2$ adalah...",
+                options: ["$y = -8$", "$y = 4$", "$y = -4$", "$y = 8$"],
+                answer: 1,
+                explanation: "Tambahkan kedua ruas dengan 6: $y = -2 + 6 = 4$."
+            },
+            {
+                id: 7,
+                title: "Soal 7: Dasar PLSV (Perkalian)",
+                question: "Penyelesaian dari persamaan $4m = 24$ adalah...",
+                options: ["$m = 20$", "$m = 96$", "$m = 6$", "$m = 8$"],
+                answer: 2,
+                explanation: "Bagi kedua ruas dengan 4: $m = 24 / 4 = 6$."
+            },
+            {
+                id: 8,
+                title: "Soal 8: Persamaan 2 Langkah",
+                question: "Penyelesaian dari $2p + 3 = 11$ adalah...",
+                options: ["$p = 7$", "$p = 4$", "$p = 5$", "$p = 3$"],
+                answer: 1,
+                explanation: "Kurangi 3: $2p = 8$. Lalu bagi 2: $p = 4$."
+            }
+        ];
+
+        // Data Latihan Soal Interaktif (3 Soal x 5 Konsep = 15 Soal)
+        const practiceData = [
+            // Konsep 1: Simbol & Menerjemahkan
+            {
+                concept: 1,
+                question: "Kalimat 'Usia Andi ($u$) paling sedikit 15 tahun' jika dinyatakan dalam pertidaksamaan adalah...",
+                options: ["$u < 15$", "$u \\le 15$", "$u > 15$", "$u \\ge 15$"],
+                answer: 3,
+                explanation: "Kata 'paling sedikit' berarti tidak boleh kurang dari 15, sehingga menggunakan tanda $\\ge$."
+            },
+            {
+                concept: 1,
+                question: "Kalimat 'Kecepatan mobil ($v$) tidak boleh melebihi 80 km/jam' ditulis sebagai...",
+                options: ["$v \\le 80$", "$v < 80$", "$v \\ge 80$", "$v > 80$"],
+                answer: 0,
+                explanation: "'Tidak boleh melebihi' berarti maksimum 80, yaitu $v \\le 80$."
+            },
+            {
+                concept: 1,
+                question: "Simbol yang digunakan untuk menyatakan frasa 'kurang dari' adalah...",
+                options: ["$\\ge$", "$<$", "$>$", "$\\le$"],
+                answer: 1,
+                explanation: "Frasa 'kurang dari' disimbolkan dengan tanda $<$."
+            },
+
+            // Konsep 2: Operasi Penjumlahan & Pengurangan
+            {
+                concept: 2,
+                question: "Penyelesaian dari pertidaksamaan $x + 6 > 10$ adalah...",
+                options: ["$x > 4$", "$x < 4$", "$x > 16$", "$x < 16$"],
+                answer: 0,
+                explanation: "Kurangi 6 di kedua ruas: $x > 10 - 6 \\Rightarrow x > 4$."
+            },
+            {
+                concept: 2,
+                question: "Penyelesaian dari $y - 3 \\le 5$ adalah...",
+                options: ["$y \\le 2$", "$y \\ge 8$", "$y \\le 8$", "$y < 8$"],
+                answer: 2,
+                explanation: "Tambahkan 3 di kedua ruas: $y \\le 5 + 3 \\Rightarrow y \\le 8$."
+            },
+            {
+                concept: 2,
+                question: "Jika $a + 7 \\ge 2$, maka batas nilai $a$ adalah...",
+                options: ["$a \\ge 9$", "$a \\ge -5$", "$a \\le -5$", "$a \\ge 5$"],
+                answer: 1,
+                explanation: "Kurangi 7 di kedua ruas: $a \\ge 2 - 7 \\Rightarrow a \\ge -5$."
+            },
+
+            // Konsep 3: Perkalian / Pembagian Positif
+            {
+                concept: 3,
+                question: "Hasil penyelesaian dari $3x < 15$ adalah...",
+                options: ["$x < 5$", "$x > 5$", "$x < 45$", "$x > 45$"],
+                answer: 0,
+                explanation: "Bagi kedua ruas dengan $+3$: $x < 15 / 3 \\Rightarrow x < 5$."
+            },
+            {
+                concept: 3,
+                question: "Penyelesaian dari $2m + 4 \\ge 12$ adalah...",
+                options: ["$m \\ge 8$", "$m \\ge 4$", "$m \\le 4$", "$m \\ge 6$"],
+                answer: 1,
+                explanation: "Kurangi 4: $2m \\ge 8$. Bagi 2: $m \\ge 4$."
+            },
+            {
+                concept: 3,
+                question: "Penyelesaian dari $5k - 2 \\le 18$ adalah...",
+                options: ["$k \\le 4$", "$k \\ge 4$", "$k \\le 20$", "$k \\le 3.2$"],
+                answer: 0,
+                explanation: "Tambahkan 2: $5k \\le 20$. Bagi 5: $k \\le 4$."
+            },
+
+            // Konsep 4: Perkalian / Pembagian Negatif (Aturan Pembalikan)
+            {
+                concept: 4,
+                question: "Penyelesaian dari $-2x > 8$ adalah...",
+                options: ["$x > -4$", "$x < -4$", "$x < 4$", "$x > 4$"],
+                answer: 1,
+                explanation: "Bagi kedua ruas dengan $-2$. Tanda $>$ HARUS DIBALIK menjadi $<$: $x < 8 / (-2) \\Rightarrow x < -4$."
+            },
+            {
+                concept: 4,
+                question: "Penyelesaian dari $-3y + 6 \\le 18$ adalah...",
+                options: ["$y \\ge -4$", "$y \\le -4$", "$y \\ge 4$", "$y \\le 4$"],
+                answer: 0,
+                explanation: "Kurangi 6: $-3y \\le 12$. Bagi dengan $-3$ (tanda balik): $y \\ge -4$."
+            },
+            {
+                concept: 4,
+                question: "Nilai $p$ yang memenuhi $-p - 5 < -2$ adalah...",
+                options: ["$p < -3$", "$p > -3$", "$p > 3$", "$p < 3$"],
+                answer: 1,
+                explanation: "Tambahkan 5: $-p < 3$. Kali/bagi $-1$ (tanda balik): $p > -3$."
+            },
+
+            // Konsep 5: Soal Cerita
+            {
+                concept: 5,
+                question: "Sebuah bus dapat mengangkut tidak lebih dari 45 penumpang. Jika sudah ada 18 penumpang, berapa tambahan penumpang ($x$) yang masih boleh masuk?",
+                options: ["$x \\le 27$", "$x \\ge 27$", "$x < 27$", "$x \\le 63$"],
+                answer: 0,
+                explanation: "Model: $18 + x \\le 45 \\Rightarrow x \\le 45 - 18 \\Rightarrow x \\le 27$."
+            },
+            {
+                concept: 5,
+                question: "Budi memiliki uang Rp 20.000. Ia membeli pensil seharga Rp 4.000 dan beberapa buku seharga Rp 3.000 per buah. Jumlah buku terbanyak ($b$) yang dapat dibeli Budi adalah...",
+                options: ["4 buah", "5 buah", "6 buah", "7 buah"],
+                answer: 1,
+                explanation: "$4000 + 3000b \\le 20000 \\Rightarrow 3000b \\le 16000 \\Rightarrow b \\le 5.33$. Maksimum buku bulat = 5 buah."
+            },
+            {
+                concept: 5,
+                question: "Keliling persegi dengan panjang sisi $s$ tidak boleh melebihi 36 cm. Model pertidaksamaan dan nilai $s$ yang benar adalah...",
+                options: ["$4s \\le 36 \\Rightarrow s \\le 9$", "$4s \\ge 36 \\Rightarrow s \\ge 9$", "$s + 4 \\le 36 \\Rightarrow s \\le 32$", "$4s < 36 \\Rightarrow s < 9$"],
+                answer: 0,
+                explanation: "Keliling $4s \\le 36 \\Rightarrow s \\le 9$ cm."
+            }
+        ];
+
+        let warmupAnswers = {};
+        let warmupScore = 0;
+
+        function renderWarmup() {
+            const container = document.getElementById('warmup-container');
+            container.innerHTML = warmupData.map((q, idx) => `
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="font-bold text-slate-800 text-sm flex items-center justify-between">
+                        <span>${q.title}</span>
+                        <span id="warmup-badge-${idx}" class="hidden text-xs px-2.5 py-0.5 rounded-full font-bold"></span>
+                    </div>
+                    <p class="text-sm text-slate-700">${q.question}</p>
+                    <div class="grid grid-cols-2 gap-2 text-xs font-medium">
+                        ${q.options.map((opt, optIdx) => `
+                            <button onclick="checkWarmup(${idx}, ${optIdx})" id="warmup-btn-${idx}-${optIdx}"
+                                class="p-2.5 rounded-xl border border-slate-200 hover:bg-indigo-50 hover:border-indigo-300 transition text-left text-slate-700">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="warmup-exp-${idx}" class="hidden p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 mt-2">
+                        <strong>Pembahasan:</strong> ${q.explanation}
+                    </div>
+                </div>
+            `).join('');
+
+            triggerMathRender(container);
+        }
+
+        function checkWarmup(qIdx, optIdx) {
+            if (warmupAnswers[qIdx] !== undefined) return; // Disallow re-answer
+            warmupAnswers[qIdx] = optIdx;
+
+            const q = warmupData[qIdx];
+            const isCorrect = optIdx === q.answer;
+            const badge = document.getElementById(`warmup-badge-${qIdx}`);
+            const exp = document.getElementById(`warmup-exp-${qIdx}`);
+
+            if (isCorrect) {
+                warmupScore++;
+                badge.textContent = "Benar!";
+                badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-700";
+                document.getElementById(`warmup-btn-${qIdx}-${optIdx}`).className = "p-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-left";
+            } else {
+                badge.textContent = "Salah";
+                badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-700";
+                document.getElementById(`warmup-btn-${qIdx}-${optIdx}`).className = "p-2.5 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-800 font-bold text-left";
+                // highlight correct one
+                document.getElementById(`warmup-btn-${qIdx}-${q.answer}`).className = "p-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-left";
+            }
+
+            exp.classList.remove('hidden');
+            document.getElementById('warmup-score').textContent = `Skor Warm-up: ${warmupScore} / ${warmupData.length}`;
+            triggerMathRender(document.getElementById(`warmup-exp-${qIdx}`));
+        }
+
+        function renderNumberLine() {
+            const operator = document.getElementById('sim-operator').value;
+            const val = parseInt(document.getElementById('sim-value').value) || 0;
+            const svg = document.getElementById('number-line-svg');
+            const formulaDisplay = document.getElementById('sim-formula');
+
+            formulaDisplay.textContent = `x ${operator} ${val}`;
+
+            const minNum = -6;
+            const maxNum = 6;
+            const svgWidth = 560;
+            const padding = 40;
+            const stepWidth = (svgWidth - 2 * padding) / (maxNum - minNum);
+
+            const getX = (n) => padding + (n - minNum) * stepWidth;
+            const pointX = getX(val);
+
+            const isInclusive = operator.includes('=');
+            const isGreaterThan = operator.includes('>');
+
+            let rayEndX = isGreaterThan ? svgWidth - 10 : 10;
+
+            svg.innerHTML = `
+                <!-- Main Line -->
+                <line x1="10" y1="60" x2="${svgWidth - 10}" y2="60" stroke="#94a3b8" stroke-width="3" />
+                <polygon points="5,60 15,55 15,65" fill="#94a3b8" />
+                <polygon points="${svgWidth - 5},60 ${svgWidth - 15},55 ${svgWidth - 15},65" fill="#94a3b8" />
+
+                <!-- Ticks and Numbers -->
+                ${Array.from({length: maxNum - minNum + 1}, (_, i) => {
+                    const n = minNum + i;
+                    const x = getX(n);
+                    return `
+                        <line x1="${x}" y1="52" x2="${x}" y2="68" stroke="#cbd5e1" stroke-width="2" />
+                        <text x="${x}" y="90" fill="#94a3b8" font-size="12" font-weight="bold" text-anchor="middle">${n}</text>
+                    `;
+                }).join('')}
+
+                <!-- Shaded Ray -->
+                <line x1="${pointX}" y1="60" x2="${rayEndX}" y2="60" stroke="#818cf8" stroke-width="6" />
+                <polygon points="${isGreaterThan ? svgWidth-8 : 8},60 ${isGreaterThan ? svgWidth-20 : 20},52 ${isGreaterThan ? svgWidth-20 : 20},68" fill="#818cf8" />
+
+                <!-- Point Circle (Open vs Closed) -->
+                <circle cx="${pointX}" cy="60" r="8" fill="${isInclusive ? '#818cf8' : '#1e293b'}" stroke="#818cf8" stroke-width="3" />
+            `;
+        }
+
+        let currentTab = 1;
+        let practiceAnswers = {};
+        let practiceScore = 0;
+
+        function filterPractice(tabId) {
+            currentTab = tabId;
+            for (let i = 1; i <= 5; i++) {
+                const btn = document.getElementById(`tab-${i}`);
+                if (i === tabId) {
+                    btn.className = "px-4 py-2 rounded-xl bg-indigo-600 text-white font-bold whitespace-nowrap transition shadow-sm";
+                } else {
+                    btn.className = "px-4 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 font-semibold whitespace-nowrap transition";
+                }
+            }
+            renderPractice();
+        }
+
+        function renderPractice() {
+            const container = document.getElementById('practice-container');
+            const filteredQuestions = practiceData.filter(q => q.concept === currentTab);
+
+            container.innerHTML = filteredQuestions.map((q, localIdx) => {
+                const globalIdx = practiceData.indexOf(q);
+                return `
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">
+                                Soal ${localIdx + 1} dari 3 (Konsep ${currentTab})
+                            </span>
+                            <span id="practice-badge-${globalIdx}" class="hidden text-xs px-2.5 py-0.5 rounded-full font-bold"></span>
+                        </div>
+                        <p class="font-semibold text-slate-800 text-base">${q.question}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                            ${q.options.map((opt, optIdx) => `
+                                <button onclick="checkPractice(${globalIdx}, ${optIdx})" id="prac-btn-${globalIdx}-${optIdx}"
+                                    class="p-3 rounded-xl border border-slate-200 hover:bg-indigo-50 hover:border-indigo-300 transition text-left text-slate-700 font-medium">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div id="prac-exp-${globalIdx}" class="hidden p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 mt-2 space-y-1">
+                            <strong class="text-indigo-900 block font-bold">Pembahasan:</strong>
+                            <p>${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Restore state if answered
+            filteredQuestions.forEach((q) => {
+                const globalIdx = practiceData.indexOf(q);
+                if (practiceAnswers[globalIdx] !== undefined) {
+                    const chosen = practiceAnswers[globalIdx];
+                    const isCorrect = chosen === q.answer;
+                    const badge = document.getElementById(`practice-badge-${globalIdx}`);
+                    const exp = document.getElementById(`prac-exp-${globalIdx}`);
+
+                    exp.classList.remove('hidden');
+                    if (isCorrect) {
+                        badge.textContent = "Benar!";
+                        badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-700";
+                        document.getElementById(`prac-btn-${globalIdx}-${chosen}`).className = "p-3 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-left";
+                    } else {
+                        badge.textContent = "Salah";
+                        badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-700";
+                        document.getElementById(`prac-btn-${globalIdx}-${chosen}`).className = "p-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-800 font-bold text-left";
+                        document.getElementById(`prac-btn-${globalIdx}-${q.answer}`).className = "p-3 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-left";
+                    }
+                }
+            });
+
+            triggerMathRender(container);
+        }
+
+        function checkPractice(globalIdx, optIdx) {
+            if (practiceAnswers[globalIdx] !== undefined) return;
+            practiceAnswers[globalIdx] = optIdx;
+
+            const q = practiceData[globalIdx];
+            const isCorrect = optIdx === q.answer;
+
+            if (isCorrect) {
+                practiceScore++;
+            }
+
+            document.getElementById('practice-score').textContent = `Skor Latihan: ${practiceScore} / ${practiceData.length}`;
+            renderPractice();
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            triggerMathRender(document.body);
+            renderWarmup();
+            renderNumberLine();
+            filterPractice(1);
+        };
+    </script>
+</body>
+</html>
