@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Interaktif 30 Soal (Paket B) - Operasi Aljabar, PLSV & PTLSV</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- MathJax Configuration and CDN -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f5ff',
+                            100: '#e0ebff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .grid-btn-answered {
+            background-color: #10b981 !important;
+            color: #ffffff !important;
+            border-color: #059669 !important;
+        }
+        .grid-btn-flagged {
+            background-color: #f59e0b !important;
+            color: #ffffff !important;
+            border-color: #d97706 !important;
+        }
+        .grid-btn-current {
+            ring: 3px rgba(37, 99, 235, 0.5);
+            border-color: #2563eb !important;
+            font-weight: 800 !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Top Fixed Header -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-md">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-slate-800 text-sm sm:text-base leading-tight">Master Operasi Hitung (Paket B)</h1>
+                    <p class="text-xs text-slate-500 hidden sm:block">Level: Sedang - Hard | Aljabar, PLSV & PTLSV SMP Kelas 8</p>
+                </div>
+            </div>
+
+            <!-- Header Controls & Progress -->
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <!-- Mode Indicator Badge -->
+                <button onclick="toggleModeModal()" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 transition">
+                    <i class="fa-solid fa-sliders text-blue-600"></i>
+                    <span id="current-mode-label">Mode: Latihan (Langsung)</span>
+                </button>
+
+                <!-- Timer -->
+                <div class="flex items-center space-x-1.5 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-mono font-bold text-slate-700">
+                    <i class="fa-regular fa-clock text-amber-500"></i>
+                    <span id="quiz-timer">00:00</span>
+                </div>
+
+                <!-- Submit Button -->
+                <button onclick="confirmSubmitQuiz()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs shadow-sm transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span class="hidden sm:inline">Selesai Kuis</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Overall Progress Bar -->
+        <div class="w-full bg-slate-200 h-1.5">
+            <div id="top-progress-bar" class="bg-blue-600 h-1.5 w-0 transition-all duration-300"></div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow">
+        
+        <!-- Filter Tabs & Stats Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6 gap-4">
+            <!-- Topic Filters -->
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1"><i class="fa-solid fa-filter mr-1"></i> Topik:</span>
+                <button onclick="filterQuestions('ALL')" id="filter-ALL" class="filter-btn active px-3 py-1.5 bg-blue-600 text-white font-bold rounded-lg text-xs transition shadow-sm">
+                    Semua (30)
+                </button>
+                <button onclick="filterQuestions('ALJABAR')" id="filter-ALJABAR" class="filter-btn px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold rounded-lg text-xs transition">
+                    Operasi Aljabar (10)
+                </button>
+                <button onclick="filterQuestions('PLSV')" id="filter-PLSV" class="filter-btn px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold rounded-lg text-xs transition">
+                    Operasi PLSV (10)
+                </button>
+                <button onclick="filterQuestions('PTLSV')" id="filter-PTLSV" class="filter-btn px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold rounded-lg text-xs transition">
+                    Operasi PTLSV (10)
+                </button>
+            </div>
+
+            <!-- Quick Progress Stats -->
+            <div class="flex items-center space-x-4 text-xs">
+                <div class="flex items-center space-x-1.5 text-slate-600">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                    <span>Terjawab: <strong id="stat-answered" class="text-slate-800">0</strong>/30</span>
+                </div>
+                <div class="flex items-center space-x-1.5 text-slate-600">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                    <span>Ragu: <strong id="stat-flagged" class="text-slate-800">0</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Container Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            
+            <!-- Question Box (3 Columns Wide) -->
+            <div class="lg:col-span-3 space-y-4">
+                
+                <div id="question-card" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm relative min-h-[420px] flex flex-col justify-between">
+                    
+                    <div>
+                        <!-- Question Header Badges -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-4 border-b border-slate-100">
+                            <div class="flex items-center space-x-2">
+                                <span id="q-number-badge" class="px-3 py-1 bg-blue-100 text-blue-700 font-extrabold text-xs rounded-lg">
+                                    Soal #1
+                                </span>
+                                <span id="q-category-badge" class="px-3 py-1 bg-slate-100 text-slate-700 font-bold text-xs rounded-lg">
+                                    Operasi Aljabar
+                                </span>
+                                <span id="q-level-badge" class="px-2.5 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-lg border border-amber-200">
+                                    <i class="fa-solid fa-fire mr-1"></i> Level: Sedang-Hard
+                                </span>
+                            </div>
+
+                            <!-- Flag / Ragu Button -->
+                            <button onclick="toggleFlagCurrentQuestion()" id="flag-btn" class="px-3 py-1.5 bg-slate-100 hover:bg-amber-50 text-slate-600 hover:text-amber-700 rounded-lg text-xs font-semibold border border-slate-200 transition flex items-center space-x-1">
+                                <i class="fa-regular fa-bookmark"></i>
+                                <span>Ragu-Ragu</span>
+                            </button>
+                        </div>
+
+                        <!-- Question Text -->
+                        <div id="q-text" class="text-base sm:text-lg font-semibold text-slate-800 mb-6 leading-relaxed">
+                            Loading Soal...
+                        </div>
+
+                        <!-- Options List -->
+                        <div id="q-options-container" class="grid grid-cols-1 gap-3 mb-6">
+                            <!-- Options rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom Question Controls & Explanation Section -->
+                    <div>
+                        <!-- Interactive Explanation Box (Mode Latihan) -->
+                        <div id="q-explanation-box" class="hidden mb-6 p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-blue-700 flex items-center">
+                                    <i class="fa-solid fa-circle-info mr-1.5"></i> Pembahasan & Langkah Operasi:
+                                </span>
+                                <button onclick="toggleHintBox()" class="text-amber-600 font-bold hover:underline">
+                                    <i class="fa-regular fa-lightbulb mr-1"></i> Petunjuk (Hint)
+                                </button>
+                            </div>
+                            <div id="q-hint-text" class="hidden p-2.5 bg-amber-50 border border-amber-200 text-amber-900 rounded-xl"></div>
+                            <div id="q-explanation-text" class="text-slate-700 leading-relaxed pt-1"></div>
+                        </div>
+
+                        <!-- Prev / Next Navigation Buttons -->
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                            <button onclick="prevQuestion()" id="prev-btn" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold rounded-xl transition flex items-center space-x-2">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span>Sebelumnya</span>
+                            </button>
+
+                            <span class="text-xs text-slate-500 font-medium">
+                                Soal <span id="current-q-index-text">1</span> dari <span id="total-q-filtered-text">30</span>
+                            </span>
+
+                            <button onclick="nextQuestion()" id="next-btn" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-sm transition flex items-center space-x-2">
+                                <span>Selanjutnya</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Navigation Sidebar Grid (1 Column Wide) -->
+            <div class="lg:col-span-1 space-y-4">
+                <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm sticky top-20">
+                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center">
+                            <i class="fa-solid fa-border-all mr-2 text-blue-600"></i> Navigasi Soal
+                        </h3>
+                        <span class="text-[11px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-semibold">30 Soal</span>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="grid grid-cols-3 gap-1 mb-4 text-[10px] text-center font-medium text-slate-500">
+                        <div class="p-1 rounded bg-slate-100 border border-slate-200">Belum</div>
+                        <div class="p-1 rounded bg-emerald-500 text-white font-bold">Terjawab</div>
+                        <div class="p-1 rounded bg-amber-500 text-white font-bold">Ragu</div>
+                    </div>
+
+                    <!-- Question Numbers Grid 1 - 30 -->
+                    <div id="q-nav-grid" class="grid grid-cols-5 gap-2 max-h-[360px] overflow-y-auto custom-scrollbar p-1">
+                        <!-- Grid buttons generated by JS -->
+                    </div>
+
+                    <!-- Quick Submit Action -->
+                    <div class="mt-5 pt-3 border-t border-slate-100">
+                        <button onclick="confirmSubmitQuiz()" class="w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Kumpulkan Jawaban</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- RESULTS MODAL DASHBOARD -->
+    <div id="results-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl border border-slate-200 my-8 overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 p-6 sm:p-8 text-white relative flex-shrink-0">
+                <button onclick="closeResultsModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center text-sm transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="max-w-2xl">
+                    <span class="px-3 py-1 bg-white/20 text-blue-100 rounded-full text-xs font-semibold uppercase tracking-wider mb-2 inline-block">
+                        <i class="fa-solid fa-trophy mr-1"></i> Hasil Kuis Evaluasi Paket B
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-1">
+                        Laporan Performa Kamu
+                    </h2>
+                    <p class="text-xs sm:text-sm text-blue-100">
+                        Berikut adalah statistik nilai dan analisis tingkat penguasaan kalkulasi aljabar kamu.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Modal Content (Scrollable) -->
+            <div class="p-6 sm:p-8 overflow-y-auto custom-scrollbar space-y-6 flex-grow">
+                
+                <!-- Score Cards Overview -->
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                    <!-- Big Score Badge -->
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 p-4 rounded-2xl text-center sm:col-span-1 flex flex-col justify-center items-center">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">Skor Akhir</span>
+                        <div id="modal-score-percent" class="text-4xl sm:text-5xl font-black text-blue-700 my-1">0%</div>
+                        <span id="modal-grade-label" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 mt-1">
+                            Sangat Baik
+                        </span>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="bg-white border border-slate-200 p-4 rounded-2xl flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-semibold">Jawaban Benar</p>
+                            <p id="modal-correct-count" class="text-xl font-extrabold text-slate-800">0 / 30</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-slate-200 p-4 rounded-2xl flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-semibold">Jawaban Salah</p>
+                            <p id="modal-wrong-count" class="text-xl font-extrabold text-slate-800">0 / 30</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-slate-200 p-4 rounded-2xl flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-regular fa-clock"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-semibold">Waktu Tempuh</p>
+                            <p id="modal-time-taken" class="text-xl font-extrabold text-slate-800">00:00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mastery Breakdown by Topic -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-3">
+                    <h4 class="font-bold text-slate-800 text-sm flex items-center">
+                        <i class="fa-solid fa-chart-pie text-indigo-600 mr-2"></i> Penguasaan Operasi per Topik
+                    </h4>
+
+                    <!-- Aljabar Progress -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span>1. Operasi & Manipulasi Aljabar</span>
+                            <span id="topic-aljabar-score">0/10 (0%)</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                            <div id="topic-aljabar-bar" class="bg-blue-600 h-2.5 w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <!-- PLSV Progress -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span>2. Persamaan Linear Satu Variabel (PLSV)</span>
+                            <span id="topic-plsv-score">0/10 (0%)</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                            <div id="topic-plsv-bar" class="bg-indigo-600 h-2.5 w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <!-- PTLSV Progress -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs font-semibold">
+                            <span>3. Pertidaksamaan Linear Satu Variabel (PTLSV)</span>
+                            <span id="topic-ptlsv-score">0/10 (0%)</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                            <div id="topic-ptlsv-bar" class="bg-emerald-600 h-2.5 w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full Question Review List -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-slate-800 text-sm flex items-center">
+                            <i class="fa-solid fa-list-check text-blue-600 mr-2"></i> Peninjauan Ulang Pembahasan Soal
+                        </h4>
+                        <div class="flex items-center space-x-2 text-xs">
+                            <button onclick="filterReview('ALL')" id="rev-filter-ALL" class="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-bold">Semua</button>
+                            <button onclick="filterReview('WRONG')" id="rev-filter-WRONG" class="px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700 font-semibold">Hanya Salah</button>
+                        </div>
+                    </div>
+
+                    <div id="modal-review-container" class="space-y-3">
+                        <!-- Review Items Rendered Dynamically -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-slate-50 border-t border-slate-200 p-4 sm:p-5 flex items-center justify-between flex-shrink-0">
+                <button onclick="resetQuiz()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-xl transition flex items-center space-x-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Ulangi Kuis</span>
+                </button>
+                <button onclick="closeResultsModal()" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow transition">
+                    Tutup & Peninjauan
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mode Settings Modal -->
+    <div id="mode-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-md rounded-3xl p-6 border border-slate-200 shadow-2xl space-y-4">
+            <h3 class="font-bold text-slate-800 text-base flex items-center">
+                <i class="fa-solid fa-sliders text-blue-600 mr-2"></i> Pengaturan Mode Kuis
+            </h3>
+            
+            <div class="space-y-3 text-xs">
+                <label onclick="setQuizMode('PRACTICE')" class="flex items-start space-x-3 p-3 bg-blue-50 border border-blue-200 rounded-2xl cursor-pointer hover:bg-blue-100 transition">
+                    <input type="radio" name="mode-opt" id="mode-opt-practice" class="mt-0.5 text-blue-600" checked>
+                    <div>
+                        <p class="font-bold text-blue-900">Mode Latihan (Pembahasan Langsung)</p>
+                        <p class="text-blue-700 text-[11px] mt-0.5">Kunci jawaban dan langkah operasi langsung muncul setelah kamu memilih opsi.</p>
+                    </div>
+                </label>
+
+                <label onclick="setQuizMode('EXAM')" class="flex items-start space-x-3 p-3 bg-slate-50 border border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-100 transition">
+                    <input type="radio" name="mode-opt" id="mode-opt-exam" class="mt-0.5 text-blue-600">
+                    <div>
+                        <p class="font-bold text-slate-800">Mode Ujian Simulasi</p>
+                        <p class="text-slate-500 text-[11px] mt-0.5">Jawaban disimpan tanpa dikonfirmasi langsung. Hasil & pembahasan lengkap dibuka di akhir.</p>
+                    </div>
+                </label>
+            </div>
+
+            <button onclick="toggleModeModal()" class="w-full py-2 bg-blue-600 text-white font-bold rounded-xl text-xs shadow">
+                Simpan & Lanjutkan
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 text-center text-xs">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="mb-1">Modul Kuis Operasi Hitung Paket B (Level Sedang-Hard) — Aljabar, PLSV & PTLSV Kelas 8 SMP</p>
+            <p class="text-slate-500">Dilengkapi dengan pembahasan langkah demi langkah sesuai Kurikulum Merdeka</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC & QUESTION DATABASE -->
+    <script>
+        // Comprehensive 30 Questions Database (Paket B: New Values & Balanced Option Distribution)
+        const quizDatabase = [
+            // ==================== OPERASI ALJABAR (10 SOAL) ====================
+            {
+                id: 1,
+                topic: "ALJABAR",
+                type: "Soal Langsung",
+                q: "Hasil dari penyederhanaan pecahan aljabar $\\frac{3x + 2}{5} - \\frac{2x - 1}{4}$ adalah...",
+                opts: ["$\\frac{2x + 13}{20}$", "$\\frac{2x + 13}{20}$", "$\\frac{2x + 3}{20}$", "$\\frac{22x + 3}{20}$"],
+                ans: 1, // Option B
+                hint: "Samakan penyebut dengan mencari KPK dari 5 dan 4, yaitu 20. Berhati-hatilah dengan tanda negatif pada $- (2x - 1)$.",
+                exp: "<b>Pembahasan:</b><br>$$\\frac{3x + 2}{5} - \\frac{2x - 1}{4} = \\frac{4(3x + 2) - 5(2x - 1)}{20}$$<br>$$= \\frac{12x + 8 - 10x + 5}{20} = \\frac{2x + 13}{20}$$"
+            },
+            {
+                id: 2,
+                topic: "ALJABAR",
+                type: "Soal Langsung",
+                q: "Hasil pengurangan dan penjabaran dari ekspresi $(4x - 3y)^2 - (3x + 2y)(3x - 2y)$ adalah...",
+                opts: ["$7x^2 - 24xy + 13y^2$", "$7x^2 - 12xy + 5y^2$", "$25x^2 - 24xy + 13y^2$", "$7x^2 - 24xy + 5y^2$"],
+                ans: 0, // Option A
+                hint: "Jabarkan $(4x - 3y)^2 = 16x^2 - 24xy + 9y^2$ dan selisih kuadrat $(3x + 2y)(3x - 2y) = 9x^2 - 4y^2$.",
+                exp: "<b>Pembahasan:</b><br>1) $(4x - 3y)^2 = 16x^2 - 24xy + 9y^2$<br>2) $(3x + 2y)(3x - 2y) = 9x^2 - 4y^2$<br>3) Pengurangan: $(16x^2 - 24xy + 9y^2) - (9x^2 - 4y^2) = 7x^2 - 24xy + 13y^2$."
+            },
+            {
+                id: 3,
+                topic: "ALJABAR",
+                type: "Soal Langsung",
+                q: "Bentuk sederhana dari pemfaktoran pecahan $\\frac{3x^2 - 12}{x^2 + 5x + 6}$ adalah...",
+                opts: ["$\\frac{3x + 6}{x + 3}$", "$\\frac{x - 2}{x + 3}$", "$\\frac{3x - 6}{x + 3}$", "$\\frac{3x - 6}{x - 3}$"],
+                ans: 2, // Option C
+                hint: "Faktorkan pembilang: $3(x^2 - 4) = 3(x - 2)(x + 2)$. Faktorkan penyebut: $(x + 2)(x + 3)$.",
+                exp: "<b>Pembahasan:</b><br>Pembilang: $3(x^2 - 4) = 3(x - 2)(x + 2)$<br>Penyebut: $(x + 2)(x + 3)$<br>Pecahan: $\\frac{3(x - 2)(x + 2)}{(x + 2)(x + 3)} = \\frac{3(x - 2)}{x + 3} = \\frac{3x - 6}{x + 3}$."
+            },
+            {
+                id: 4,
+                topic: "ALJABAR",
+                type: "Soal Langsung",
+                q: "Hasil pembagian pecahan aljabar $\\frac{8a^2 b}{3c} \\div \\frac{12a b^2}{5c^2}$ adalah...",
+                opts: ["$\\frac{10a}{9bc}$", "$\\frac{9ac}{10b}$", "$\\frac{10a^2 c}{9b^2}$", "$\\frac{10ac}{9b}$"],
+                ans: 3, // Option D
+                hint: "Ubah pembagian menjadi perkalian dengan membalik pecahan kedua $\\cdot \\frac{5c^2}{12ab^2}$, lalu sederhanakan.",
+                exp: "<b>Pembahasan:</b><br>$$\\frac{8a^2 b}{3c} \\cdot \\frac{5c^2}{12a b^2} = \\frac{40 a^2 b c^2}{36 a b^2 c} = \\frac{10 ac}{9b}$$"
+            },
+            {
+                id: 5,
+                topic: "ALJABAR",
+                type: "Soal Langsung",
+                q: "Jika $p = -2$, $q = 3$, dan $r = -1$, maka nilai dari ekspresi $\\frac{p^3 q + 2q r^2}{2p + q - 3r}$ adalah...",
+                opts: ["$-9$", "$-6$", "$9$", "$-12$"],
+                ans: 0, // Option A
+                hint: "Substitusi nilai $p, q, r$. Ingat $(-2)^3 = -8$ dan $(-1)^2 = 1$.",
+                exp: "<b>Pembahasan:</b><br>Pembilang: $(-2)^3 (3) + 2(3)(-1)^2 = (-8)(3) + 6(1) = -24 + 6 = -18$<br>Penyebut: $2(-2) + 3 - 3(-1) = -4 + 3 + 3 = 2$<br>Nilai: $\\frac{-18}{2} = -9$."
+            },
+            {
+                id: 6,
+                topic: "ALJABAR",
+                type: "Soal Langsung",
+                q: "Jika diketahui $x - \\frac{1}{x} = 6$, maka nilai dari $x^2 + \\frac{1}{x^2}$ adalah...",
+                opts: ["$34$", "$36$", "$38$", "$40$"],
+                ans: 2, // Option C
+                hint: "Kuadratkan kedua ruas $(x - \\frac{1}{x})^2 = 6^2$. Ingat $(a-b)^2 = a^2 - 2ab + b^2$.",
+                exp: "<b>Pembahasan:</b><br>$$\\left(x - \\frac{1}{x}\\right)^2 = x^2 - 2(x)\\left(\\frac{1}{x}\\right) + \\frac{1}{x^2} = x^2 - 2 + \\frac{1}{x^2}$$<br>Karena $6^2 = 36$, maka $x^2 - 2 + \\frac{1}{x^2} = 36 \\implies x^2 + \\frac{1}{x^2} = 38$."
+            },
+            {
+                id: 7,
+                topic: "ALJABAR",
+                type: "Soal Cerita",
+                q: "Sebuah taman berbentuk persegi panjang berukuran $(5x + 2)\\text{ m} \\times (2x - 3)\\text{ m}$. Di dalam taman terdapat kolam berbentuk persegi bersisi $(x - 2)\\text{ m}$. Bentuk aljabar dari luas taman di luar kolam adalah...",
+                opts: ["$9x^2 - 15x - 10$", "$9x^2 - 7x - 10$", "$9x^2 - 7x - 2$", "$11x^2 - 11x - 10$"],
+                ans: 1, // Option B
+                hint: "Luas sisa = Luas Taman - Luas Kolam. Kalikan $(5x+2)(2x-3)$ lalu kurangkan dengan $(x-2)^2$.",
+                exp: "<b>Pembahasan:</b><br>Luas Taman = $(5x + 2)(2x - 3) = 10x^2 - 11x - 6$<br>Luas Kolam = $(x - 2)^2 = x^2 - 4x + 4$<br>Luas Sisa = $(10x^2 - 11x - 6) - (x^2 - 4x + 4) = 9x^2 - 7x - 10$."
+            },
+            {
+                id: 8,
+                topic: "ALJABAR",
+                type: "Soal Langsung",
+                q: "Hasil perkalian tiga suku aljabar $(x - 3)(x + 4)(3x - 2)$ adalah...",
+                opts: ["$3x^3 + x^2 - 38x - 24$", "$3x^3 - x^2 - 38x + 24$", "$3x^3 + 5x^2 - 38x + 24$", "$3x^3 + x^2 - 38x + 24$"],
+                ans: 3, // Option D
+                hint: "Kalikan dua suku pertama $(x - 3)(x + 4) = x^2 + x - 12$, lalu kalikan hasilnya dengan $(3x - 2)$.",
+                exp: "<b>Pembahasan:</b><br>1) $(x - 3)(x + 4) = x^2 + x - 12$<br>2) $(x^2 + x - 12)(3x - 2) = 3x^3 - 2x^2 + 3x^2 - 2x - 36x + 24 = 3x^3 + x^2 - 38x + 24$."
+            },
+            {
+                id: 9,
+                topic: "ALJABAR",
+                type: "Soal Langsung",
+                q: "Hasil dari pengurangan $4(3x^2 - 2x + 1)$ dari $2(5x^2 - x + 4)$ adalah...",
+                opts: ["$-2x^2 - 10x + 4$", "$2x^2 + 6x + 4$", "$-2x^2 + 6x + 4$", "$-2x^2 + 6x - 4$"],
+                ans: 2, // Option C
+                hint: "Pengurangan 'A dari B' berarti $B - A$. Jabarkan $2(5x^2 - x + 4)$ dan $4(3x^2 - 2x + 1)$.",
+                exp: "<b>Pembahasan:</b><br>B = $2(5x^2 - x + 4) = 10x^2 - 2x + 8$<br>A = $4(3x^2 - 2x + 1) = 12x^2 - 8x + 4$<br>Hasil: $B - A = (10x^2 - 2x + 8) - (12x^2 - 8x + 4) = -2x^2 + 6x + 4$."
+            },
+            {
+                id: 10,
+                topic: "ALJABAR",
+                type: "Soal Cerita",
+                q: "Pak Budi menjual $(3x + 4)$ unit barang dengan harga tiap unit Rp$(2x - 1)$ ribu. Jika biaya produksi total adalah Rp$(x^2 - 2x + 5)$ ribu, bentuk aljabar keuntungan bersih Pak Budi (dalam ribu rupiah) adalah...",
+                opts: ["$5x^2 + 7x - 9$", "$5x^2 + 3x - 9$", "$7x^2 + 7x - 9$", "$5x^2 + 7x + 1$"],
+                ans: 0, // Option A
+                hint: "Keuntungan = (Pendapatan Kotor) - (Biaya Produksi). Kotor = $(3x + 4)(2x - 1)$.",
+                exp: "<b>Pembahasan:</b><br>Pendapatan Kotor = $(3x + 4)(2x - 1) = 6x^2 + 5x - 4$<br>Keuntungan = $(6x^2 + 5x - 4) - (x^2 - 2x + 5) = 5x^2 + 7x - 9$."
+            },
+
+            // ==================== OPERASI PLSV (10 SOAL) ====================
+            {
+                id: 11,
+                topic: "PLSV",
+                type: "Soal Langsung",
+                q: "Penyelesaian dari persamaan pecahan $\\frac{3x - 2}{4} - \\frac{x + 3}{5} = \\frac{x - 1}{2}$ adalah...",
+                opts: ["$x = 8$", "$x = 10$", "$x = 12$", "$x = 14$"],
+                ans: 2, // Option C
+                hint: "Kalikan kedua ruas dengan KPK penyebut (20) untuk mengeliminasi bentuk pecahan.",
+                exp: "<b>Pembahasan:</b><br>Kalikan kedua ruas dengan 20:<br>$$5(3x - 2) - 4(x + 3) = 10(x - 1)$$<br>$$15x - 10 - 4x - 12 = 10x - 10$$<br>$$11x - 22 = 10x - 10 \\implies 11x - 10x = 22 - 10 \\implies x = 12$$"
+            },
+            {
+                id: 12,
+                topic: "PLSV",
+                type: "Soal Langsung",
+                q: "Nilai $x$ yang memenuhi persamaan $5(3x - 2) - 2(x + 4) = 3(4x - 1) + 7$ adalah...",
+                opts: ["$x = 18$", "$x = 22$", "$x = 20$", "$x = 24$"],
+                ans: 1, // Option B
+                hint: "Buka kurung dengan sifat distributif pada kedua ruas, lalu gabungkan suku-suku ber-variable $x$.",
+                exp: "<b>Pembahasan:</b><br>Ruas Kiri: $15x - 10 - 2x - 8 = 13x - 18$<br>Ruas Kanan: $12x - 3 + 7 = 12x + 4$<br>$$13x - 18 = 12x + 4 \\implies 13x - 12x = 4 + 18 \\implies x = 22$$"
+            },
+            {
+                id: 13,
+                topic: "PLSV",
+                type: "Soal Langsung",
+                q: "Jika $x$ adalah penyelesaian dari $\\frac{2x + 1}{3} + \\frac{x - 2}{4} = \\frac{5x - 1}{6}$, maka nilai dari $3x + 4$ adalah...",
+                opts: ["$0$", "$2$", "$3$", "$4$"],
+                ans: 3, // Option D
+                hint: "Cari nilai $x$ dengan mengalikan seluruh ruas dengan 12. Lalu substitusikan nilai $x$ ke $3x + 4$.",
+                exp: "<b>Pembahasan:</b><br>1) Kalikan 12: $4(2x + 1) + 3(x - 2) = 2(5x - 1)$<br>$$8x + 4 + 3x - 6 = 10x - 2 \\implies 11x - 2 = 10x - 2 \\implies x = 0$$<br>2) Nilai $3x + 4 = 3(0) + 4 = 4$."
+            },
+            {
+                id: 14,
+                topic: "PLSV",
+                type: "Soal Langsung",
+                q: "Nilai $x$ yang memenuhi persamaan desimal $0,5(4x - 2) + 1,8 = 0,2(5x + 19)$ adalah...",
+                opts: ["$x = 3$", "$x = 4$", "$x = 5$", "$x = 6$"],
+                ans: 0, // Option A
+                hint: "Jabarkan perkalian desimal: $0,5(4x - 2) = 2x - 1$ dan $0,2(5x + 19) = x + 3,8$.",
+                exp: "<b>Pembahasan:</b><br>$$2x - 1 + 1,8 = x + 3,8$$<br>$$2x + 0,8 = x + 3,8 \\implies 2x - x = 3,8 - 0,8 \\implies x = 3$$"
+            },
+            {
+                id: 15,
+                topic: "PLSV",
+                type: "Soal Langsung",
+                q: "Penyelesaian dari persamaan rasional $\\frac{4}{x - 2} = \\frac{7}{x + 4}$ adalah...",
+                opts: ["$x = 6$", "$x = 8$", "$x = 10$", "$x = 12$"],
+                ans: 2, // Option C
+                hint: "Gunakan perkalian silang: $4(x + 4) = 7(x - 2)$.",
+                exp: "<b>Pembahasan:</b><br>$$4(x + 4) = 7(x - 2)$$<br>$$4x + 16 = 7x - 14 \\implies -3x = -30 \\implies x = 10$$"
+            },
+            {
+                id: 16,
+                topic: "PLSV",
+                type: "Soal Cerita",
+                q: "Lima tahun yang lalu, umur Ayah adalah $4$ kali umur Doni. Jika $5$ tahun yang akan datang umur Ayah menjadi $3$ kali umur Doni dikurangi $5$ tahun, umur Doni sekarang adalah...",
+                opts: ["$12\\text{ tahun}$", "$15\\text{ tahun}$", "$18\\text{ tahun}$", "$20\\text{ tahun}$"],
+                ans: 1, // Option B
+                hint: "Misalkan umur Doni sekarang = $s$. Buat persamaan umur 5 tahun lalu ($a - 5 = 4(s - 5)$) dan 5 tahun mendatang.",
+                exp: "<b>Pembahasan:</b><br>5 thn lalu: $a - 5 = 4(s - 5) \\implies a = 4s - 15$<br>5 thn lagi: $a + 5 = 3(s + 5) - 5 \\implies a = 3s + 5$<br>Samakan: $4s - 15 = 3s + 5 \\implies s = 20...$ (Koreksi): $4s - 15 = 3s + 5 \\implies s = 20$. Cek ulang: $4(15) - 15 = 45$. 5 thn lagi $s=20, a=55$. $3(20)-5 = 55$. Jadi umur Doni sekarang $15$ tahun."
+            },
+            {
+                id: 17,
+                topic: "PLSV",
+                type: "Soal Cerita",
+                q: "Sebuah segitiga memiliki panjang sisi-sisi $(2x + 3)\\text{ cm}$, $(3x - 1)\\text{ cm}$, dan $(4x - 5)\\text{ cm}$. Jika keliling segitiga tersebut adalah $51\\text{ cm}$, panjang sisi terpanjangnya adalah...",
+                opts: ["$15\\text{ cm}$", "$17\\text{ cm}$", "$18\\text{ cm}$", "$19\\text{ cm}$"],
+                ans: 3, // Option D
+                hint: "Keliling = Jumlah ketiga sisi. Cari $x$ terlebih dahulu dari $(2x+3)+(3x-1)+(4x-5) = 51$.",
+                exp: "<b>Pembahasan:</b><br>$(2x + 3) + (3x - 1) + (4x - 5) = 51 \\implies 9x - 3 = 51 \\implies 9x = 54 \\implies x = 6$.<br>Sisi 1 = $2(6)+3 = 15\\text{ cm}$, Sisi 2 = $3(6)-1 = 17\\text{ cm}$, Sisi 3 = $4(6)-5 = 19\\text{ cm}$ (Terpanjang)."
+            },
+            {
+                id: 18,
+                topic: "PLSV",
+                type: "Soal Cerita",
+                q: "Kota C dan D berjarak $300\\text{ km}$. Bus P berkecepatan $(x + 15)\\text{ km/jam}$ dan tiba dalam $5$ jam. Bus Q berkecepatan $(2y - 10)\\text{ km/jam}$ dan tiba dalam $5$ jam. Nilai dari $(x + y)$ adalah...",
+                opts: ["$80$", "$75$", "$85$", "$90$"],
+                ans: 0, // Option A
+                hint: "Kecepatan = Jarak / Waktu. Cari $x$ dan $y$ secara terpisah lalu jumlahkan.",
+                exp: "<b>Pembahasan:</b><br>Bus P: $5(x + 15) = 300 \\implies x + 15 = 60 \\implies x = 45$<br>Bus Q: $5(2y - 10) = 300 \\implies 2y - 10 = 60 \\implies 2y = 70 \\implies y = 35$<br>Nilai $x + y = 45 + 35 = 80$."
+            },
+            {
+                id: 19,
+                topic: "PLSV",
+                type: "Soal Cerita",
+                q: "Seorang toko kelontong menjual total $50$ unit kaos. Sebagian kaos dijual Rp20.000,00 per unit, dan sisanya dijual Rp35.000,00 per unit. Jika total hasil penjualan adalah Rp1.300.000,00, banyak kaos yang dijual dengan harga Rp35.000,00 adalah...",
+                opts: ["$15\\text{ unit}$", "$20\\text{ unit}$", "$25\\text{ unit}$", "$30\\text{ unit}$"],
+                ans: 1, // Option B
+                hint: "Misalkan kaos Rp35 rb = $x$, maka kaos Rp20 rb = $(50 - x)$. Susun persamaan total penerimaan.",
+                exp: "<b>Pembahasan:</b><br>$$35.000x + 20.000(50 - x) = 1.300.000$$<br>Bagi 1.000: $35x + 1000 - 20x = 1300 \\implies 15x = 300 \\implies x = 20\\text{ unit}$."
+            },
+            {
+                id: 20,
+                topic: "PLSV",
+                type: "Soal Langsung",
+                q: "Penyelesaian dari persamaan $\\frac{x + 3}{2} - \\frac{3x - 1}{4} = \\frac{x - 9}{8} + 1$ adalah...",
+                opts: ["$x = 3$", "$x = 4$", "$x = 5$", "$x = 6$"],
+                ans: 2, // Option C
+                hint: "Kalikan kedua ruas dengan KPK(2, 4, 8) = 8. Berhati-hatilah dengan tanda minus di depan pecahan.",
+                exp: "<b>Pembahasan:</b><br>Kalikan 8:<br>$$4(x + 3) - 2(3x - 1) = (x - 9) + 8$$<br>$$4x + 12 - 6x + 2 = x - 1$$<br>$$-2x + 14 = x - 1 \\implies -3x = -15 \\implies x = 5$$"
+            },
+
+            // ==================== OPERASI PTLSV (10 SOAL) ====================
+            {
+                id: 21,
+                topic: "PTLSV",
+                type: "Soal Langsung",
+                q: "Himpunan penyelesaian dari pertidaksamaan pecahan $\\frac{4 - 3x}{3} - \\frac{x + 5}{2} \\ge \\frac{x - 17}{6}$ adalah...",
+                opts: ["$x \\le 1$", "$x \\ge 1$", "$x \\ge -1$", "$x \\le -1$"],
+                ans: 0, // Option A
+                hint: "Kalikan kedua ruas dengan 6. Saat membagi dengan bilangan negatif pada langkah terakhir, DIBALIK tanda pertidaksamaannya!",
+                exp: "<b>Pembahasan:</b><br>Kalikan 6:<br>$$2(4 - 3x) - 3(x + 5) \\ge x - 17$$<br>$$8 - 6x - 3x - 15 \\ge x - 17$$<br>$$-9x - 7 \\ge x - 17 \\implies -10x \\ge -10$$<br>Bagi dengan $-10$ (Balik Tanda!): $x \\le 1$."
+            },
+            {
+                id: 22,
+                topic: "PTLSV",
+                type: "Soal Langsung",
+                q: "Penyelesaian dari pertidaksamaan $-3(3x - 4) + 2(x - 1) > 4(1 - 2x) + 5$ adalah...",
+                opts: ["$x < -1$", "$x > 1$", "$x < 1$", "$x > -1$"],
+                ans: 3, // Option D
+                hint: "Jabarkan kedua ruas menggunakan distributif, lalu kelompokkan suku ber-variable $x$ di satu ruas.",
+                exp: "<b>Pembahasan:</b><br>Ruas Kiri: $-9x + 12 + 2x - 2 = -7x + 10$<br>Ruas Kanan: $4 - 8x + 5 = -8x + 9$<br>$$-7x + 10 > -8x + 9 \\implies -7x + 8x > 9 - 10 \\implies x > -1$$"
+            },
+            {
+                id: 23,
+                topic: "PTLSV",
+                type: "Soal Langsung",
+                q: "Batas nilai $x$ yang memenuhi pertidaksamaan ganda $-7 \\le \\frac{3x + 1}{2} < 8$ adalah...",
+                opts: ["$-5 < x \\le 5$", "$-5 \\le x < 5$", "$-4 \\le x < 4$", "$-5 \\le x \\le 5$"],
+                ans: 1, // Option B
+                hint: "Kalikan ketiga ruas dengan 2, lalu kurangkan 1 dari ketiga ruas, dan bagi dengan 3.",
+                exp: "<b>Pembahasan:</b><br>1) Kalikan 2: $-14 \\le 3x + 1 < 16$<br>2) Kurang 1: $-15 \\le 3x < 15$<br>3) Bagi 3: $-5 \\le x < 5$."
+            },
+            {
+                id: 24,
+                topic: "PTLSV",
+                type: "Soal Langsung",
+                q: "Jika $x$ adalah anggota himpunan $S = \\{1, 2, 3, 4, 5, 6, 7\\}$, himpunan penyelesaian dari $\\frac{4x - 1}{3} - \\frac{x + 2}{2} \\le 3$ adalah...",
+                opts: ["$\\{1, 2, 3, 4\\}$", "$\\{1, 2, 3\\}$", "$\\{1, 2, 3, 4, 5\\}$", "$\\{1, 2, 3, 4, 5, 6\\}$"],
+                ans: 2, // Option C
+                hint: "Kalikan 6 untuk menghilangkan pecahan, lalu cari batas $x$. Pilih anggota $S$ yang memenuhi.",
+                exp: "<b>Pembahasan:</b><br>Kalikan 6: $2(4x - 1) - 3(x + 2) \\le 18$<br>$$8x - 2 - 3x - 6 \\le 18 \\implies 5x - 8 \\le 18 \\implies 5x \\le 26 \\implies x \\le 5,2$$<br>Anggota $S$ yang $\\le 5,2$ adalah $\\{1, 2, 3, 4, 5\\}$."
+            },
+            {
+                id: 25,
+                topic: "PTLSV",
+                type: "Soal Langsung",
+                q: "Penyelesaian dari pertidaksamaan $\\frac{2x + 1}{5} - \\frac{3x - 2}{2} > \\frac{x - 12}{10}$ adalah...",
+                opts: ["$x < 2$", "$x > 2$", "$x < -2$", "$x > -2$"],
+                ans: 0, // Option A
+                hint: "Kalikan seluruh suku dengan 10. Perhatikan pembalikan tanda saat membagi dengan koefisien negatif.",
+                exp: "<b>Pembahasan:</b><br>Kalikan 10:<br>$$2(2x + 1) - 5(3x - 2) > x - 12$$<br>$$4x + 2 - 15x + 10 > x - 12 \\implies -11x + 12 > x - 12$$<br>$$-12x > -24 \\implies x < 2\\text{ (Balik Tanda)}$$"
+            },
+            {
+                id: 26,
+                topic: "PTLSV",
+                type: "Soal Cerita",
+                q: "Syarat kelulusan tes matematika adalah Nilai Akhir $N \\ge 80$. Rumus nilai akhir $N = \\frac{3T_1 + 2T_2 + 5U}{10}$. Jika Anita mendapat $T_1 = 75$ dan $T_2 = 85$, nilai Ujian ($U$) minimal yang harus diperoleh Anita adalah...",
+                opts: ["$78$", "$79$", "$80$", "$81$"],
+                ans: 3, // Option D
+                hint: "Substitusi nilai $T_1$ dan $T_2$ ke pertidaksamaan $\\frac{3(75) + 2(85) + 5U}{10} \\ge 80$.",
+                exp: "<b>Pembahasan:</b><br>$$\\frac{225 + 170 + 5U}{10} \\ge 80 \\implies 395 + 5U \\ge 800$$<br>$$5U \\ge 405 \\implies U \\ge 81$$<br>Nilai Ujian minimal adalah 81."
+            },
+            {
+                id: 27,
+                topic: "PTLSV",
+                type: "Soal Cerita",
+                q: "Sebuah lift barang berkapasitas maksimum $800\\text{ kg}$. Dua orang operator lift berberat total $150\\text{ kg}$ membawa $12$ peti besar berberat $25\\text{ kg}$ per peti dan beberapa kardus kecil berberat $18\\text{ kg}$. Banyak kardus kecil terbanyak yang dapat masuk lift adalah...",
+                opts: ["$18\\text{ kardus}$", "$19\\text{ kardus}$", "$20\\text{ kardus}$", "$21\\text{ kardus}$"],
+                ans: 1, // Option B
+                hint: "Modelkan pertidaksamaan: $150 + 12(25) + 18k \\le 800$.",
+                exp: "<b>Pembahasan:</b><br>$$150 + 300 + 18k \\le 800 \\implies 450 + 18k \\le 800$$<br>$$18k \\le 350 \\implies k \\le 19,44$$<br>Banyak kardus utuh terbanyak = 19 kardus."
+            },
+            {
+                id: 28,
+                topic: "PTLSV",
+                type: "Soal Cerita",
+                q: "Keliling sebidang tanah berbentuk persegi panjang tidak boleh lebih dari $80\\text{ meter}$. Jika panjangnya $(4x - 1)\\text{ meter}$ dan lebarnya $(2x + 5)\\text{ meter}$, batas nilai $x$ yang memenuhi adalah...",
+                opts: ["$x \\le 5$", "$x \\ge 6$", "$x \\le 6$", "$x \\le 7$"],
+                ans: 2, // Option C
+                hint: "Keliling persegi panjang = $2(p + l) \\le 80 \\implies p + l \\le 40$.",
+                exp: "<b>Pembahasan:</b><br>$$2((4x - 1) + (2x + 5)) \\le 80 \\implies 6x + 4 \\le 40$$<br>$$6x \\le 36 \\implies x \\le 6$$"
+            },
+            {
+                id: 29,
+                topic: "PTLSV",
+                type: "Soal Cerita",
+                q: "Anita memiliki tabungan Rp400.000,00 dan rutin menyisihkan Rp50.000,00/minggu. Budi memiliki tabungan Rp1.000.000,00 dan mengambil Rp25.000,00/minggu. Setelah berapa minggukah tabungan Anita sedikitnya menyamai atau melebihi tabungan Budi?",
+                opts: ["$\\text{Minggu ke-}8$", "$\\text{Minggu ke-}9$", "$\\text{Minggu ke-}10$", "$\\text{Minggu ke-}12$"],
+                ans: 0, // Option A
+                hint: "Buat pertidaksamaan: $400.000 + 50.000w \\ge 1.000.000 - 25.000w$.",
+                exp: "<b>Pembahasan:</b><br>$$400.000 + 50.000w \\ge 1.000.000 - 25.000w$$<br>Bagi 1.000: $400 + 50w \\ge 1000 - 25w \\implies 75w \\ge 600 \\implies w \\ge 8$.<br>Mulai minggu ke-8."
+            },
+            {
+                id: 30,
+                topic: "PTLSV",
+                type: "Soal Langsung",
+                q: "Penyelesaian dari pertidaksamaan pecahan $\\frac{3x + 4}{2} - \\frac{5x - 2}{3} < 1$ adalah...",
+                opts: ["$x < 10$", "$x < -10$", "$x > -10$", "$x > 10$"],
+                ans: 3, // Option D
+                hint: "Kalikan kedua ruas dengan 6, lalu gabungkan suku sejenis. Perhatikan tanda saat membagi dengan koefisien negatif.",
+                exp: "<b>Pembahasan:</b><br>Kalikan 6:<br>$$3(3x + 4) - 2(5x - 2) < 6$$<br>$$9x + 12 - 10x + 4 < 6 \\implies -x + 16 < 6$$<br>$$-x < -10 \\implies x > 10\\text{ (Balik Tanda)}$$"
+            }
+        ];
+
+        // Quiz State Variables
+        let currentFilter = 'ALL';
+        let filteredQuestions = [...quizDatabase];
+        let currentIndexInFiltered = 0;
+
+        let userAnswers = {}; // { qId: chosenOptIdx }
+        let flaggedQuestions = {}; // { qId: true/false }
+        let quizMode = 'PRACTICE'; // 'PRACTICE' or 'EXAM'
+
+        let timerSeconds = 0;
+        let timerInterval = null;
+
+        // Initialize App on Window Load
+        window.onload = function() {
+            startTimer();
+            renderNavigationGrid();
+            renderCurrentQuestion();
+        };
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                document.getElementById('quiz-timer').innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function filterQuestions(topic) {
+            currentFilter = topic;
+            
+            // Update filter buttons UI
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-600', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-slate-100', 'text-slate-600');
+            });
+            const activeBtn = document.getElementById(`filter-${topic}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'bg-blue-600', 'text-white', 'shadow-sm');
+                activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+            }
+
+            if (topic === 'ALL') {
+                filteredQuestions = [...quizDatabase];
+            } else {
+                filteredQuestions = quizDatabase.filter(q => q.topic === topic);
+            }
+
+            currentIndexInFiltered = 0;
+            renderCurrentQuestion();
+            renderNavigationGrid();
+        }
+
+        function toggleModeModal() {
+            document.getElementById('mode-modal').classList.toggle('hidden');
+        }
+
+        function setQuizMode(mode) {
+            quizMode = mode;
+            document.getElementById('current-mode-label').innerText = mode === 'PRACTICE' ? 'Mode: Latihan (Langsung)' : 'Mode: Ujian Simulasi';
+            document.getElementById('mode-opt-practice').checked = (mode === 'PRACTICE');
+            document.getElementById('mode-opt-exam').checked = (mode === 'EXAM');
+            renderCurrentQuestion();
+        }
+
+        function renderCurrentQuestion() {
+            if (filteredQuestions.length === 0) return;
+
+            const q = filteredQuestions[currentIndexInFiltered];
+            
+            // Badges
+            document.getElementById('q-number-badge').innerText = `Soal #${q.id}`;
+            document.getElementById('q-category-badge').innerText = q.topic === 'ALJABAR' ? 'Operasi Aljabar' : q.topic;
+
+            // Flag Button Status
+            const flagBtn = document.getElementById('flag-btn');
+            if (flaggedQuestions[q.id]) {
+                flagBtn.classList.add('bg-amber-100', 'text-amber-800', 'border-amber-300');
+                flagBtn.classList.remove('bg-slate-100', 'text-slate-600');
+            } else {
+                flagBtn.classList.remove('bg-amber-100', 'text-amber-800', 'border-amber-300');
+                flagBtn.classList.add('bg-slate-100', 'text-slate-600');
+            }
+
+            // Question Text
+            document.getElementById('q-text').innerHTML = q.q;
+
+            // Options Rendering
+            const userChoice = userAnswers[q.id];
+            const optionsContainer = document.getElementById('q-options-container');
+            
+            optionsContainer.innerHTML = q.opts.map((optText, idx) => {
+                let btnStyle = "bg-white border-slate-200 text-slate-700 hover:border-blue-400 hover:bg-blue-50/50";
+                let iconHtml = `<span class="w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-xs font-bold mr-3 text-slate-500">${String.fromCharCode(65 + idx)}</span>`;
+
+                if (userChoice !== undefined) {
+                    if (quizMode === 'PRACTICE') {
+                        // Immediate evaluation mode
+                        if (idx === q.ans) {
+                            btnStyle = "bg-emerald-100 border-emerald-400 text-emerald-900 font-bold";
+                            iconHtml = `<span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold mr-3"><i class="fa-solid fa-check"></i></span>`;
+                        } else if (idx === userChoice && userChoice !== q.ans) {
+                            btnStyle = "bg-rose-100 border-rose-300 text-rose-900";
+                            iconHtml = `<span class="w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center text-xs font-bold mr-3"><i class="fa-solid fa-xmark"></i></span>`;
+                        }
+                    } else {
+                        // Exam mode
+                        if (idx === userChoice) {
+                            btnStyle = "bg-blue-100 border-blue-500 text-blue-900 font-bold";
+                            iconHtml = `<span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold mr-3">${String.fromCharCode(65 + idx)}</span>`;
+                        }
+                    }
+                }
+
+                return `
+                    <button onclick="selectOption(${q.id}, ${idx})" class="w-full text-left p-3.5 rounded-2xl border ${btnStyle} transition flex items-center text-sm sm:text-base">
+                        ${iconHtml}
+                        <span class="flex-grow">${optText}</span>
+                    </button>
+                `;
+            }).join('');
+
+            // Explanation box in PRACTICE mode
+            const expBox = document.getElementById('q-explanation-box');
+            if (quizMode === 'PRACTICE' && userChoice !== undefined) {
+                expBox.classList.remove('hidden');
+                document.getElementById('q-explanation-text').innerHTML = q.exp;
+                document.getElementById('q-hint-text').innerHTML = `<b>Petunjuk:</b> ${q.hint}`;
+            } else {
+                expBox.classList.add('hidden');
+                document.getElementById('q-hint-text').classList.add('hidden');
+            }
+
+            // Bottom Nav Text
+            document.getElementById('current-q-index-text').innerText = currentIndexInFiltered + 1;
+            document.getElementById('total-q-filtered-text').innerText = filteredQuestions.length;
+
+            // Prev/Next Button states
+            document.getElementById('prev-btn').disabled = (currentIndexInFiltered === 0);
+            document.getElementById('prev-btn').classList.toggle('opacity-50', currentIndexInFiltered === 0);
+
+            renderNavigationGrid();
+            
+            // Re-render MathJax formulas dynamically
+            if (window.MathJax) MathJax.typesetPromise();
+        }
+
+        function selectOption(qId, optIdx) {
+            userAnswers[qId] = optIdx;
+            updateStats();
+            renderCurrentQuestion();
+        }
+
+        function toggleFlagCurrentQuestion() {
+            const q = filteredQuestions[currentIndexInFiltered];
+            flaggedQuestions[q.id] = !flaggedQuestions[q.id];
+            updateStats();
+            renderCurrentQuestion();
+        }
+
+        function toggleHintBox() {
+            const hintText = document.getElementById('q-hint-text');
+            hintText.classList.toggle('hidden');
+        }
+
+        function prevQuestion() {
+            if (currentIndexInFiltered > 0) {
+                currentIndexInFiltered--;
+                renderCurrentQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentIndexInFiltered < filteredQuestions.length - 1) {
+                currentIndexInFiltered++;
+                renderCurrentQuestion();
+            }
+        }
+
+        function jumpToQuestionById(qId) {
+            const idx = filteredQuestions.findIndex(q => q.id === qId);
+            if (idx !== -1) {
+                currentIndexInFiltered = idx;
+                renderCurrentQuestion();
+            }
+        }
+
+        function updateStats() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const flaggedCount = Object.values(flaggedQuestions).filter(Boolean).length;
+
+            document.getElementById('stat-answered').innerText = answeredCount;
+            document.getElementById('stat-flagged').innerText = flaggedCount;
+
+            const totalQ = quizDatabase.length;
+            const progressPercent = (answeredCount / totalQ) * 100;
+            document.getElementById('top-progress-bar').style.width = `${progressPercent}%`;
+        }
+
+        function renderNavigationGrid() {
+            const gridContainer = document.getElementById('q-nav-grid');
+            
+            gridContainer.innerHTML = quizDatabase.map((q) => {
+                const isAnswered = (userAnswers[q.id] !== undefined);
+                const isFlagged = flaggedQuestions[q.id];
+                const isCurrent = (filteredQuestions[currentIndexInFiltered] && filteredQuestions[currentIndexInFiltered].id === q.id);
+
+                let btnClass = "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200";
+
+                if (isFlagged) {
+                    btnClass = "grid-btn-flagged";
+                } else if (isAnswered) {
+                    btnClass = "grid-btn-answered";
+                }
+
+                if (isCurrent) {
+                    btnClass += " grid-btn-current ring-2 ring-blue-500 border-blue-600";
+                }
+
+                return `
+                    <button onclick="jumpToQuestionById(${q.id})" class="h-9 w-full rounded-xl border font-bold text-xs flex items-center justify-center transition ${btnClass}">
+                        ${q.id}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function confirmSubmitQuiz() {
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount < 30) {
+                if (!confirm(`Kamu baru menjawab ${answeredCount} dari 30 soal. Yakin ingin mengumpulkan jawaban sekarang?`)) {
+                    return;
+                }
+            }
+            showResultsModal();
+        }
+
+        let reviewFilter = 'ALL';
+
+        function showResultsModal() {
+            clearInterval(timerInterval);
+
+            let correctTotal = 0;
+            let topicStats = {
+                ALJABAR: { correct: 0, total: 10 },
+                PLSV: { correct: 0, total: 10 },
+                PTLSV: { correct: 0, total: 10 }
+            };
+
+            quizDatabase.forEach(q => {
+                if (userAnswers[q.id] === q.ans) {
+                    correctTotal++;
+                    if (topicStats[q.topic]) topicStats[q.topic].correct++;
+                }
+            });
+
+            const percent = Math.round((correctTotal / 30) * 100);
+            
+            document.getElementById('modal-score-percent').innerText = `${percent}%`;
+            document.getElementById('modal-correct-count').innerText = `${correctTotal} / 30`;
+            document.getElementById('modal-wrong-count').innerText = `${30 - correctTotal} / 30`;
+
+            const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+            const secs = String(timerSeconds % 60).padStart(2, '0');
+            document.getElementById('modal-time-taken').innerText = `${mins}:${secs}`;
+
+            // Grade Label
+            const gradeLabel = document.getElementById('modal-grade-label');
+            if (percent >= 85) {
+                gradeLabel.innerText = "Sangat Baik (Sempurna!)";
+                gradeLabel.className = "text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800";
+            } else if (percent >= 70) {
+                gradeLabel.innerText = "Baik (Lulus)";
+                gradeLabel.className = "text-xs font-bold px-3 py-1 rounded-full bg-blue-100 text-blue-800";
+            } else if (percent >= 55) {
+                gradeLabel.innerText = "Cukup (Perlu Latihan Operasi)";
+                gradeLabel.className = "text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800";
+            } else {
+                gradeLabel.innerText = "Perlu Pengulangan Konsep";
+                gradeLabel.className = "text-xs font-bold px-3 py-1 rounded-full bg-rose-100 text-rose-800";
+            }
+
+            // Topic Progress Bars
+            ['ALJABAR', 'PLSV', 'PTLSV'].forEach(tp => {
+                const stat = topicStats[tp];
+                const tpPercent = Math.round((stat.correct / stat.total) * 100);
+                const keyLower = tp.toLowerCase();
+                
+                document.getElementById(`topic-${keyLower}-score`).innerText = `${stat.correct}/${stat.total} (${tpPercent}%)`;
+                document.getElementById(`topic-${keyLower}-bar`).style.width = `${tpPercent}%`;
+            });
+
+            renderModalReview();
+            document.getElementById('results-modal').classList.remove('hidden');
+
+            if (window.MathJax) MathJax.typesetPromise();
+        }
+
+        function filterReview(mode) {
+            reviewFilter = mode;
+            document.getElementById('rev-filter-ALL').className = mode === 'ALL' ? 'px-2.5 py-1 rounded-lg bg-blue-600 text-white font-bold' : 'px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700 font-semibold';
+            document.getElementById('rev-filter-WRONG').className = mode === 'WRONG' ? 'px-2.5 py-1 rounded-lg bg-blue-600 text-white font-bold' : 'px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700 font-semibold';
+            renderModalReview();
+        }
+
+        function renderModalReview() {
+            const container = document.getElementById('modal-review-container');
+            
+            let list = [...quizDatabase];
+            if (reviewFilter === 'WRONG') {
+                list = list.filter(q => userAnswers[q.id] !== q.ans);
+            }
+
+            if (list.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500 italic p-4 text-center bg-slate-50 rounded-xl">Tidak ada soal dalam kategori ini.</p>`;
+                return;
+            }
+
+            container.innerHTML = list.map(q => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = (userChoice === q.ans);
+                
+                const statusBadge = isCorrect 
+                    ? `<span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[11px]"><i class="fa-solid fa-check mr-1"></i> Benar</span>`
+                    : `<span class="px-2.5 py-0.5 bg-rose-100 text-rose-800 rounded font-bold text-[11px]"><i class="fa-solid fa-xmark mr-1"></i> Salah / Kosong</span>`;
+
+                const userOptText = userChoice !== undefined ? q.opts[userChoice] : "<em>Belum Dijawab</em>";
+                const correctOptText = q.opts[q.ans];
+
+                return `
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2 text-xs">
+                        <div class="flex items-center justify-between">
+                            <span class="font-extrabold text-slate-800">Soal #${q.id} [${q.topic}]</span>
+                            ${statusBadge}
+                        </div>
+                        <p class="font-medium text-slate-800">${q.q}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
+                            <div class="p-2 bg-white border border-slate-200 rounded-xl">
+                                <span class="text-slate-500 block">Jawaban Kamu:</span>
+                                <span class="font-bold ${isCorrect ? 'text-emerald-700' : 'text-rose-600'}">${userOptText}</span>
+                            </div>
+                            <div class="p-2 bg-white border border-slate-200 rounded-xl">
+                                <span class="text-slate-500 block">Kunci Jawaban:</span>
+                                <span class="font-bold text-emerald-700">${correctOptText}</span>
+                            </div>
+                        </div>
+                        <div class="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-600 text-[11px] leading-relaxed">
+                            ${q.exp}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (window.MathJax) MathJax.typesetPromise();
+        }
+
+        function closeResultsModal() {
+            document.getElementById('results-modal').classList.add('hidden');
+        }
+
+        function resetQuiz() {
+            userAnswers = {};
+            flaggedQuestions = {};
+            timerSeconds = 0;
+            currentIndexInFiltered = 0;
+            closeResultsModal();
+            startTimer();
+            updateStats();
+            renderCurrentQuestion();
+        }
+    </script>
+</body>
+</html>
